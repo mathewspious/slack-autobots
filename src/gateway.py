@@ -17,7 +17,7 @@ env_file = find_dotenv()
 load_dotenv()
 
 client = WebClient(token=os.environ.get('slack_token'))
-print(client)
+print(f"client = {client}")
 
 
 def setup_logging():
@@ -45,6 +45,7 @@ def hello():
 def slack_request():
     incoming_request = request.get_json()
     logger.info("Request received")
+    print(f"Request received {incoming_request}")
     logger.debug(f'incoming json request = {incoming_request}')
     if incoming_request.get("type") is not None and 'url_verification' == incoming_request.get("message"):
         logger.info(f"Responding to message ")
