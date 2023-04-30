@@ -1,6 +1,8 @@
 import logging
 import logging.config
 import os
+from slack_sdk import WebClient
+from slack_sdk.errors import SlackApiError
 from flask import Flask, request
 from dotenv import load_dotenv, find_dotenv
 from datetime import datetime
@@ -14,6 +16,7 @@ LOG_DIR = "./logs"
 env_file = find_dotenv()
 load_dotenv()
 
+client = WebClient(token="xoxb-5094016123664-5082973807201-CyeZZR0lKxXtZw9JjyRfiftq")
 
 def setup_logging():
     log_configs = {"dev": "logging.dev.ini", "prod": "logging.prod.ini"}
@@ -41,7 +44,10 @@ def slack_request():
     incoming_request = request.get_json()
     logger.info("Request received")
     logger.debug(f'incoming json request = {incoming_request}')
-    if incoming_request.get("type") is not None and 'url_verification' == incoming_request.get("type"):
+    if incoming_request.get("type") is not None and 'url_verification' == incoming_request.get("message"):
+        logger.info(f"Responding to message ")
+        responses.respond_to_message(incoming_request)
+    elif incoming_request.get("type") is not None and 'url_verification' == incoming_request.get("type"):
         logger.info(f"Responding to challenge ")
         challenge, http_code = responses.respond_to_challenge(incoming_request)
         logger.info(f"Responding with http code {http_code}")
