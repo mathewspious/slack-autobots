@@ -10,14 +10,14 @@ from datetime import datetime
 import logic.responses as responses
 
 CONFIG_DIR = "./config"
-LOG_DIR = "/logs"
+LOG_DIR = "/var/logs"
 
 # find .env file in parent directory
 env_file = find_dotenv()
 load_dotenv()
 
-client = WebClient(token="xoxb-5094016123664-5082973807201-CyeZZR0lKxXtZw9JjyRfiftq")
-
+client = WebClient(token=os.environ.get('slack_token'))
+print(client)
 def setup_logging():
     log_configs = {"dev": "logging.dev.ini", "prod": "logging.prod.ini"}
     config = log_configs.get(os.environ["ENV"], "logging.dev.ini")
