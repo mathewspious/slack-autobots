@@ -10,7 +10,7 @@ from datetime import datetime
 import logic.responses as responses
 
 CONFIG_DIR = "./config"
-LOG_DIR = "./logs"
+LOG_DIR = "/logs"
 
 # find .env file in parent directory
 env_file = find_dotenv()
