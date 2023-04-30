@@ -18,6 +18,8 @@ load_dotenv()
 
 client = WebClient(token=os.environ.get('slack_token'))
 print(client)
+
+
 def setup_logging():
     log_configs = {"dev": "logging.dev.ini", "prod": "logging.prod.ini"}
     config = log_configs.get(os.environ["ENV"], "logging.dev.ini")
@@ -46,9 +48,11 @@ def slack_request():
     logger.debug(f'incoming json request = {incoming_request}')
     if incoming_request.get("type") is not None and 'url_verification' == incoming_request.get("message"):
         logger.info(f"Responding to message ")
+        print(f"Responding to message {incoming_request}")
         responses.respond_to_message(incoming_request)
     elif incoming_request.get("type") is not None and 'url_verification' == incoming_request.get("type"):
         logger.info(f"Responding to challenge ")
+        print(f"Responding to challenge ")
         challenge, http_code = responses.respond_to_challenge(incoming_request)
         logger.info(f"Responding with http code {http_code}")
         return {
