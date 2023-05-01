@@ -8,19 +8,19 @@ logger.add(sys.stdout, colorize=True, format="<green>{time:YYYY-MM-DD HH:mm:ss.S
 
 def respond_to_message(incoming_message):
     logger.info("processing message")
-    if incoming_message.get("event") is not None and incoming_message.get("event").get("channel"):
-        channel_id = incoming_message.get("event").get("channel")
-        logger.info("Received channel id as {}", channel_id)
-    if is_registered_channel(channel_id):
-        print(incoming_message)
-        logger.info(" channel id {} is registered processing the request", channel_id)
-        logger.info("processing the message")
-        if response_needed(incoming_message):
-            return "Hello from Optimus Prime", channel_id
-
-    else:
-        logger.error("Invalid channel id {}", channel_id)
-        return "Invalid channel id", 500
+    channel_id = get_channel_id(incoming_message)
+    logger.debug("Received channel ID as {}", channel_id)
+    if channel_id is not None:
+        if is_registered_channel(channel_id):
+            logger.info(" channel id {} is registered processing the request", channel_id)
+            logger.info("processing the message")
+            if response_needed(incoming_message):
+                return "Hello from Optimus Prime", channel_id
+            else:
+                logger.info("Response Not needed for the request")
+        else:
+            logger.error("Invalid channel id {}", channel_id)
+            return "Invalid channel id", 500
 
 
 def respond_to_challenge(incoming_request):
@@ -31,3 +31,13 @@ def respond_to_challenge(incoming_request):
     else:
         logger.info("Responding Error")
         return "Challenge not found", 500
+
+
+def get_channel_id(incoming_message):
+    logger.debug("Finding channel id from request = {}", incoming_message)
+    if incoming_message.get("event") is not None and incoming_message.get("event").get("channel"):
+        channel_id = incoming_message.get("event").get("channel")
+        logger.debug("Received channel id as {}", channel_id)
+        return channel_id
+    else:
+        return None
