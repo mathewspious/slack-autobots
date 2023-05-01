@@ -6,6 +6,8 @@ from slack_sdk.errors import SlackApiError
 from flask import Flask, request
 from dotenv import load_dotenv, find_dotenv
 from datetime import datetime
+from loguru import logger
+import sys
 
 import logic.responses as responses
 
@@ -33,8 +35,9 @@ def setup_logging():
 
 
 app = Flask(__name__)
-logger = logging.getLogger(__name__)
 
+logger.remove()
+logger.add(sys.stdout, colorize=True, format="<green>{time:YYYY-MM-DD HH:mm:ss.SSS}</green> <level>{level: <8}</level> <cyan>{name}</cyan>:<cyan>{function}</cyan>:<cyan>{line}</cyan> - <level>{message}</level>")
 
 @app.route("/")
 def hello():
@@ -71,6 +74,6 @@ def slack_request():
 
 
 if __name__ == "__main__":
-    setup_logging()
+    #setup_logging()
     app.run(host='0.0.0.0', port=3000, debug=True)
     logger.info("Starting app")
