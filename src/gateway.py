@@ -56,11 +56,16 @@ def slack_request():
         logger.info(f"Responding to message ")
         print(f"Responding to message {incoming_request}")
         response_txt, channel_id = responses.respond_to_message(incoming_request)
-        result = client.chat_postMessage(
-            channel=channel_id,
-            text=response_txt
-        )
-        logger.info("chat response status = {}", result)
+        logger.info("response_text = {}, channel_is = {}",response_txt,channel_id)
+        try:
+            result = client.chat_postMessage(
+                channel=channel_id,
+                text=response_txt
+            )
+        except Exception as error:
+            logger.error("An exception occurred {}", error)
+        finally:
+            logger.info("chat response status = {}", result)
     elif incoming_request.get("type") is not None and 'url_verification' == incoming_request.get("type"):
         logger.info(f"Responding to challenge ")
         print(f"Responding to challenge ")
