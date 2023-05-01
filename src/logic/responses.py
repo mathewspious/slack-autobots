@@ -16,7 +16,7 @@ def respond_to_message(incoming_message):
         logger.info(" channel id {} is registered processing the request", channel_id)
         logger.info("processing the message")
         if response_needed(incoming_message):
-            return "Hello from Optimus Prime", 200
+            return "Hello from Optimus Prime", channel_id
 
     else:
         logger.error("Invalid channel id {}", channel_id)
