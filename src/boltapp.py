@@ -13,11 +13,11 @@ logging.basicConfig(level=logging.DEBUG)
 env_file = find_dotenv()
 load_dotenv()
 
-ssl_context = ssl.create_default_context(cafile=certifi.where())
-web_client = WebClient(token=os.environ.get('SLACK_BOT_TOKEN'), ssl=ssl_context)
-
-app = App(client=web_client)
-
+# ssl_context = ssl.create_default_context(cafile=certifi.where())
+# web_client = WebClient(token=os.environ.get('SLACK_BOT_TOKEN'), ssl=ssl_context)
+#
+# app = App(client=web_client)
+app = App()
 
 @app.middleware  # or app.use(log_request)
 def log_request(logger, body, next):
