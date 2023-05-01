@@ -10,14 +10,14 @@ from datetime import datetime
 import logic.responses as responses
 
 CONFIG_DIR = "./config"
-LOG_DIR = "/var/logs"
+LOG_DIR = "./logs"
 
 # find .env file in parent directory
 env_file = find_dotenv()
 load_dotenv()
 
 client = WebClient(token=os.environ.get('slack_token'))
-print(f"client = {client}")
+print(f"client = {client.token}")
 
 
 def setup_logging():
@@ -46,11 +46,18 @@ def slack_request():
     incoming_request = request.get_json()
     logger.info("Request received")
     print(f"Request received {incoming_request}")
-    logger.debug(f'incoming json request = {incoming_request}')
-    if incoming_request.get("type") is not None and 'url_verification' == incoming_request.get("message"):
+
+    logger.info("request type %s", incoming_request.get("event"))
+
+    if incoming_request.get("event") is not None and incoming_request.get("event").get("type") is not None and "message" == incoming_request.get("event").get("type"):
         logger.info(f"Responding to message ")
         print(f"Responding to message {incoming_request}")
-        responses.respond_to_message(incoming_request)
+        response_txt, channel_id = responses.respond_to_message(incoming_request)
+        result = client.chat_postMessage(
+            channel=channel_id,
+            text=response_txt
+        )
+        logger.info("chat response status = %s", result)
     elif incoming_request.get("type") is not None and 'url_verification' == incoming_request.get("type"):
         logger.info(f"Responding to challenge ")
         print(f"Responding to challenge ")
