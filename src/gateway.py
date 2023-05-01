@@ -50,7 +50,7 @@ def slack_request():
     logger.info("Request received")
     print(f"Request received {incoming_request}")
 
-    logger.info("request type %s", incoming_request.get("event"))
+    logger.info("request type {}", incoming_request.get("event"))
 
     if incoming_request.get("event") is not None and incoming_request.get("event").get("type") is not None and "message" == incoming_request.get("event").get("type"):
         logger.info(f"Responding to message ")
@@ -60,7 +60,7 @@ def slack_request():
             channel=channel_id,
             text=response_txt
         )
-        logger.info("chat response status = %s", result)
+        logger.info("chat response status = {}", result)
     elif incoming_request.get("type") is not None and 'url_verification' == incoming_request.get("type"):
         logger.info(f"Responding to challenge ")
         print(f"Responding to challenge ")

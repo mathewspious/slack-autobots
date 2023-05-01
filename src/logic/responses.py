@@ -10,16 +10,16 @@ def respond_to_message(incoming_message):
     logger.info("processing message")
     if incoming_message.get("event") is not None and incoming_message.get("event").get("channel"):
         channel_id = incoming_message.get("event").get("channel")
-        logger.info("Received channel id as %s", channel_id)
+        logger.info("Received channel id as {}", channel_id)
     if is_registered_channel(channel_id):
         print(incoming_message)
-        logger.info(" channel id %s is registered processing the request", channel_id)
+        logger.info(" channel id {} is registered processing the request", channel_id)
         logger.info("processing the message")
         if response_needed(incoming_message):
             return "Hello from Optimus Prime", 200
 
     else:
-        logger.error("Invalid channel id %s", channel_id)
+        logger.error("Invalid channel id {}", channel_id)
         return "Invalid channel id", 500
 
 
