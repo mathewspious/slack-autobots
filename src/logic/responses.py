@@ -1,6 +1,5 @@
 import logging
-from validations import *
-
+from .validations import is_registered_channel, response_needed
 logger = logging.getLogger(__name__)
 
 
