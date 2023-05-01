@@ -1,6 +1,5 @@
 import logging
-
-from src.logic.validations import is_registered_channel, response_needed
+from validations import *
 
 logger = logging.getLogger(__name__)
 
