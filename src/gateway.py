@@ -57,6 +57,7 @@ def slack_request():
         print(f"Responding to message {incoming_request}")
         response_txt, channel_id = responses.respond_to_message(incoming_request)
         logger.info("response_text = {}, channel_is = {}",response_txt,channel_id)
+        result = None
         try:
             result = client.chat_postMessage(
                 channel=channel_id,
