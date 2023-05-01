@@ -18,6 +18,7 @@ def respond_to_message(incoming_message):
                 return "Hello from Optimus Prime", channel_id
             else:
                 logger.info("Response Not needed for the request")
+                return "NO_RESPONSE_NEEDED", 101
         else:
             logger.error("Invalid channel id {}", channel_id)
             return "Invalid channel id", 500

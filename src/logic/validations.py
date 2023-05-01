@@ -29,7 +29,7 @@ def response_needed(incoming_message):
 
 
 def is_bot_event(incoming_message):
-    logger.debug("Cheking if {} is bot event", incoming_message)
+    logger.debug("Checking if {} is bot event", incoming_message)
     if incoming_message.get("event") is not None and incoming_message.get("event").get("bot_profile"):
         logger.debug("Bot pofile found")
         return True
